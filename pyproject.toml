@@ -1,0 +1,57 @@
+# Writing your pyproject.toml: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+
+[build-system]
+requires = ["setuptools >= 75.1.0", "setuptools-scm >= 8.1.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crud"
+description = "Basic Auth. and CRUD samples"
+readme = "README.md"
+authors = [{ name = "raspberry9" , email = "raspberry9@kormail.net" }]
+maintainers = [{ name = "raspberry9" , email = "raspberry9@kormail.net" }]
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: LINUX",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12"
+]
+dynamic = ["version", "dependencies"]
+
+[project.urls]
+homepage = "https://github.com/raspberry9/crud"
+# Documentation = "https://.../docs"
+# Repository = "https://github.com/raspberry9/crud.git"
+# Issues = "https://github.com/raspberry9/crud/issues"
+# Changelog = "https://.../CHANGELOG.md"
+
+[tool.setuptools.dynamic]
+version = {file = ["VERSION"]}
+dependencies = {file = ["requirements/requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["crud*"]
+exclude = [
+    "tests",
+    ".git",
+    "build",
+    "dist",
+    "requirements"
+]
+
+[tool.setuptools.package-data]
+# "*" = "*.yml"
+
+[tool.scripts]
+crud="crud.main:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = ["--import-mode=importlib"]  # one of prepend(default), append or importlib
