@@ -1,12 +1,18 @@
 import sys
+from enum import IntEnum
 
 
-def main():
+class ExitCode(IntEnum):
+    SUCCESS = 0
+    ERROR = 1
+
+
+def main() -> ExitCode:
     try:
         print('hello, world!')
-        return 0
+        return ExitCode.SUCCESS
     except:
-        return 1
+        return ExitCode.ERROR
 
 
 if __name__ == '__main__':

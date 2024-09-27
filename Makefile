@@ -8,5 +8,8 @@ run: .venv
 .venv:
 	@scripts/devel/make_venv.sh
 
+lint:
+	@scripts/devel/lint.sh
+
 clean:
 	@rm -rf .venv
