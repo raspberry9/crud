@@ -1,4 +1,6 @@
 #!/bin/bash
+set -eu
+
 FG_RESET='\033[0m'
 FG_BLACK='\033[0;30m'
 FG_RED='\033[0;31m'

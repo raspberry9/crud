@@ -1,4 +1,4 @@
-.PHONY: all run clean .venv
+.PHONY: all run clean .venvm lint
 
 all: run
 
@@ -12,4 +12,4 @@ lint:
 	@scripts/devel/lint.sh
 
 clean:
-	@rm -rf .venv
+	@rm -rf .venv build dist
