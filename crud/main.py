@@ -1,20 +1,18 @@
-import sys
-from enum import IntEnum
+from fastapi import FastAPI
 
 
-class ExitCode(IntEnum):
-    SUCCESS = 0
-    ERROR = 1
+def register_api_v1_routes(app:FastAPI):
+    from crud.api.v1.auth import router as api_v1_auth_router
+    app.include_router(api_v1_auth_router, prefix='/api/v1/auth', tags=['Authentications'])
 
 
-def main() -> ExitCode:
-    try:
-        print('hello, world!')
-        return ExitCode.SUCCESS
-    except:
-        return ExitCode.ERROR
+def register_api_routes(app: FastAPI) -> None:
+    register_api_v1_routes(app)
 
 
-if __name__ == '__main__':
-    exit_code = main()
-    sys.exit(exit_code)
+def create_app() -> FastAPI:
+    app = FastAPI()
+    register_api_routes(app)
+    return app
+
+app = create_app()

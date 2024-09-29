@@ -1,9 +1,12 @@
 .PHONY: all run clean .venvm lint
 
-all: run
+all: run-dev
 
-run: .venv
+run-dev: .venv
 	@scripts/devel/entrypoint.sh
+
+run-prod: .venv
+	@scripts/prod/entrypoint.sh
 
 .venv:
 	@scripts/devel/make_venv.sh
@@ -13,3 +16,4 @@ lint:
 
 clean:
 	@rm -rf .venv build dist
+	@find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete

@@ -1,6 +1,4 @@
 #!/bin/bash
-source scripts/settings.sh
-
 info Installing packages...
 python -m pip install -r requirements/requirements.txt
 
