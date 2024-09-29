@@ -1,59 +1,40 @@
-from fastapi import FastAPI, HTTPException, Depends, APIRouter
-from pydantic import BaseModel
-from typing import Optional
-from datetime import datetime
+from fastapi import APIRouter
 
-# a
-# pp = FastAPI()
+from crud.model import User
+
 router = APIRouter()
 
 
-class User(BaseModel):
-    user_id: int
-    username: str
-    password: str
-    email: str
-    created_at: datetime
-    updated_at: datetime
-    is_active: bool
-
-
-# http://127.0.0.1:8000/api/v1/auth/test
-@router.get(f"/test")
+@router.get("/test")
 def test():
     return {"hello": "world"}
 
+
 @router.post("/login")
-def login(user: User):
+def login(user_id: str):
     # 로그인 로직 구현
-    return {"message": "Login successful"}
+    return {"message": f"login id is {user_id}"}
+
 
 @router.post("/logout")
-def logout(user: User):
+def logout(user_id: str):
     # 로그아웃 로직 구현
-    return {"message": "Logout successful"}
+    return {"message": f"logout id is {user_id}"}
+
 
 @router.post("/register")
 def register(user: User):
     # 회원가입 로직 구현
-    return {"message": "Registration successful"}
+    return {"message": f"Registration successful: id: {user.id}"}
 
-@router.post("/change-password")
-def change_password(user: User, new_password: str):
-    # 비밀번호 변경 로직 구현
-    return {"message": "Password changed successfully"}
-
-@router.post("/verify-email")
-def verify_email(user: User):
-    # 이메일 인증 로직 구현
-    return {"message": "Email verified successfully"}
-
-@router.post("/resend-email-verification")
-def resend_email_verification(user: User):
-    # 이메일 인증 재전송 로직 구현
-    return {"message": "Verification email resent successfully"}
 
 @router.post("/withdraw")
-def withdraw(user: User):
-    # 회원 탈퇴 로직 구현
-    return {"message": "Withdrawal successful"}
+def withdraw(user_id: str, password: str):
+    def check_password(input_password: str):
+        # 비밀번호 체크 로직 구현
+        print(input_password)
+        return True
+    if not check_password(password):
+        # 회원 탈퇴 로직 구현
+        return {"message": f"Withdrawal successful: id: {user_id}"}
+    return {"message": "Incorrect password"}

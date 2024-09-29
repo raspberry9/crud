@@ -1,4 +1,4 @@
-.PHONY: all run clean .venvm lint test
+.PHONY: all run clean .venvm lint test coverage
 
 all: run-dev
 
@@ -16,6 +16,9 @@ lint: .venv
 
 test: .venv
 	@scripts/devel/test.sh
+
+coverage: .venv
+	@scripts/devel/coverage.sh
 
 clean:
 	@rm -rf .venv build dist

@@ -8,17 +8,17 @@ APP_DESCRIPTION = 'Basic Auth. and CRUD samples.'
 APP_VERSION = get_app_version()
 
 
-def register_api_v1_routes(app:FastAPI):
-    app.include_router(api_v1_auth_router, prefix='/api/v1/auth', tags=['Authentications'])
+def register_api_v1_routes(fastapi_app: FastAPI):
+    fastapi_app.include_router(api_v1_auth_router, prefix='/api/v1/auth', tags=['Authentications'])
 
 
-def register_api_routes(app: FastAPI) -> None:
-    register_api_v1_routes(app)
+def register_api_routes(fastapi_app: FastAPI) -> None:
+    register_api_v1_routes(fastapi_app)
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title=APP_NAME, description=APP_DESCRIPTION, version=APP_VERSION)
-    register_api_routes(app)
-    return app
+    fastapi_app = FastAPI(title=APP_NAME, description=APP_DESCRIPTION, version=APP_VERSION)
+    register_api_routes(fastapi_app)
+    return fastapi_app
 
 app = create_app()
