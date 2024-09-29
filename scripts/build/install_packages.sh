@@ -1,4 +1,6 @@
 #!/bin/bash
+source scripts/common.sh
+
 info Installing packages...
 python -m pip install -r requirements/requirements.txt
 

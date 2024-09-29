@@ -1,5 +1,5 @@
 #!/bin/bash
-source scripts/devel/settings.sh
+source scripts/common.sh
 
 REQ_MD5_FILEPATH=${VIRTUALENV_DIR}/.requirements.md5
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-source scripts/devel/settings.sh
+source scripts/common.sh
 
 CRUD_PORT=${CRUD_PORT:-8000}
 

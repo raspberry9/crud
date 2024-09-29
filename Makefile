@@ -1,4 +1,4 @@
-.PHONY: all run clean .venvm lint
+.PHONY: all run clean .venvm lint test
 
 all: run-dev
 
@@ -11,9 +11,13 @@ run-prod: .venv
 .venv:
 	@scripts/devel/make_venv.sh
 
-lint:
+lint: .venv
 	@scripts/devel/lint.sh
+
+test: .venv
+	@scripts/devel/test.sh
 
 clean:
 	@rm -rf .venv build dist
-	@find . -type f -name '*.py[co]' -delete -o -type d -name __pycache__ -delete
+	@find . -type f -name '*.py[co]' -delete -o \
+		-type d -name __pycache__ -delete
