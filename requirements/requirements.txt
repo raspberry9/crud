@@ -1,1 +1,7 @@
+# alembic~=1.13.3
+# asyncpg
+aiosqlite
 fastapi[standard]~=0.115.0
+# SQLAlchemy~=2.0.35
+fastapi-users[sqlalchemy]
+pydantic-settings==2.5.2

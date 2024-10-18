@@ -1,6 +1,10 @@
-import pytest
 from unittest.mock import mock_open, patch
-from crud.util import get_app_version
+
+import pytest
+
+from crud.libs.version import get_app_version
+from crud.libs.database import is_valid_database_url
+from crud.libs.database import is_valid_sqlite_file_url
 
 
 def test_valid_version():
@@ -41,3 +45,45 @@ def test_invalid_version():
         with patch("builtins.open", mock_open(read_data=version)):
             with pytest.raises(ValueError):
                 get_app_version()
+
+
+def test_is_valid_database_url():
+    valid_urls = [
+        # "sqlite+aiosqlite:///./test.db",
+        "postgresql+asyncpg://user:password@localhost:5432/mydatabase",
+        "mysql+aiomysql://user:password@localhost/mydatabase",
+        # "sqlite:///./test.db",
+    ]
+    invalid_urls = [
+        "invalid_url",
+        "postgresql://user@localhost:5432",
+        "mysql://user:password@localhost",
+        "sqlite://",
+    ]
+
+    for url in valid_urls:
+        assert is_valid_database_url(url) == True, f'Failed for {url}'
+
+    for url in invalid_urls:
+        assert is_valid_database_url(url) == False, f'Failed for {url}'
+
+
+def test_is_valid_sqlite_file_url():
+    valid_urls = [
+        "sqlite:///./test.db",
+        "sqlite+aiosqlite:///./test.db",
+        "sqlite:///path/to/database.db",
+        "sqlite+aiosqlite:///path/to/database.db",
+    ]
+    invalid_urls = [
+        "invalid_url",
+        "sqlite://",
+        "sqlite:/path/to/database.db",
+        "sqlite+aiosqlite://path/to/database.db",
+    ]
+
+    for url in valid_urls:
+        assert is_valid_sqlite_file_url(url) == True, f"Failed for {url}"
+
+    for url in invalid_urls:
+        assert is_valid_sqlite_file_url(url) == False, f"Failed for {url}"

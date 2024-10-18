@@ -42,7 +42,8 @@ exclude = [
     ".git",
     "build",
     "dist",
-    "requirements"
+    "requirements",
+    "debug.py"
 ]
 
 [tool.setuptools.package-data]
