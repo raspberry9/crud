@@ -4,6 +4,10 @@ from typing import Dict
 from pydantic.fields import PydanticUndefined
 from pydantic_settings import BaseSettings as PydanticBaseSettings
 
+from crud.libs.logging import getLogger
+
+logger = getLogger(__name__)
+
 
 class BaseSettings(PydanticBaseSettings):
     def __init__(self, *args, **kwargs):
@@ -29,7 +33,9 @@ class BaseSettings(PydanticBaseSettings):
             value = envs.get(field_name)
             if value:
                 setattr(self, field_name, value)
+                logger.debug(f'Setting {field_name} from env: {value}')
             else:
                 default_val = field_val.default
                 if default_val is not PydanticUndefined:
                     setattr(self, field_name, default_val)
+                    logger.debug(f'Setting {field_name} from default: {value}')

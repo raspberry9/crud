@@ -3,7 +3,7 @@
 all: run-dev
 
 run-dev: .venv
-	@scripts/devel/entrypoint.sh
+	@CRUD_DEBUG=1 scripts/devel/entrypoint.sh
 
 run-prod: .venv
 	@scripts/prod/entrypoint.sh
