@@ -1,3 +1,5 @@
+# TODO: database schema 작성
+
 # from datetime import datetime
 
 # from sqlalchemy import Integer, String, DateTime, Boolean

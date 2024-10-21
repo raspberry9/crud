@@ -1,3 +1,6 @@
+'''
+Pydantic BaseSettings를 상속받아 환경변수를 읽어오는 기능을 추가한 BaseSettings 클래스
+'''
 import os
 from typing import Dict
 
@@ -33,9 +36,9 @@ class BaseSettings(PydanticBaseSettings):
             value = envs.get(field_name)
             if value:
                 setattr(self, field_name, value)
-                logger.debug(f'Setting {field_name} from env: {value}')
+                logger.debug('Setting %s from env: %s', field_name, value)
             else:
                 default_val = field_val.default
                 if default_val is not PydanticUndefined:
                     setattr(self, field_name, default_val)
-                    logger.debug(f'Setting {field_name} from default: {value}')
+                    logger.debug('Setting %s from default: %s', field_name, value)
