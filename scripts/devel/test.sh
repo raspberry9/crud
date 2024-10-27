@@ -4,4 +4,4 @@ source ${VIRTUALENV_ACTIVATE}
 
 export PYTHONDONTWRITEBYTECODE=1
 
-pytest -p no:cacheprovider
+pytest -vv -p no:cacheprovider

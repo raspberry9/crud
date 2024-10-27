@@ -3,7 +3,7 @@ from pydantic import field_validator, Field
 from crud.libs.database import is_valid_database_url, is_valid_sqlite_file_url
 
 
-class DatabaseSettingsMixin:
+class DatabaseSettingsMixin:  # pylint: disable=too-few-public-methods
     DATABASE_URL: str = Field('sqlite:///./default.db')
 
     @field_validator('DATABASE_URL')

@@ -2,8 +2,8 @@ from fastapi import APIRouter
 
 # from crud.models import User
 
-class User:
-    pass
+# class User:
+#     pass
 
 router = APIRouter()
 

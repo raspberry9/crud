@@ -7,13 +7,9 @@ from crud.routes import register_routes
 
 logger = getLogger(__name__)
 
-APP_NAME = 'crud'
-APP_DESCRIPTION = 'Basic Auth. and CRUD samples.'
-APP_VERSION = get_app_version()
-
 
 def create_app() -> FastAPI:
-    fastapi_app = FastAPI(title=APP_NAME, description=APP_DESCRIPTION, version=APP_VERSION)
+    fastapi_app = FastAPI(title='crud', description='Basic Auth. and CRUD samples.', version=get_app_version())
     register_routes(fastapi_app)
     return fastapi_app
 
