@@ -1,5 +1,3 @@
-from typing_extensions import Annotated
-
 from fastapi import APIRouter
 from fastapi import Depends
 
@@ -10,8 +8,8 @@ router = APIRouter()
 
 
 @router.get("/test")
-def test(settings: Annotated[Settings, Depends(get_settings)]):
+def test(settings: Settings = Depends(get_settings)):
     return {
         "hello": "world",
-        'DB_URL': settings.DATABASE_URL,
+        'DB_URL': settings.CRUD_DB_URL,
     }

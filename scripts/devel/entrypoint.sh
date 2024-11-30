@@ -2,18 +2,21 @@
 source scripts/common.sh
 source ${VIRTUALENV_ACTIVATE}
 
-export PYTHONDONTWRITEBYTECODE=1
-
 # variables
-CRUD_DEBUG=${CRUD_DEBUG:-0}
-CRUD_PORT=${CRUD_PORT:-8000}
-
-# load .env file
+# -----------------------------------------------------------------------------
+set -a # automatically export all variables
+PYTHONDONTWRITEBYTECODE=1 # disable writing .pyc files
+CRUD_DEBUG=${CRUD_DEBUG:-1} # 1: debug mode, 0: production mode
+CRUD_PORT=${CRUD_PORT:-8000} # port number
+CRUD_DB_URL=${CRUD_DB_URL:-sqlite:///./debug.db} # database URL
+# load .env file if exists
 if [[ -f .env ]]; then
-    set -a  # automatically export all variables
     source .env
-    set +a
 fi
+set +a # stop exporting variables
+# -----------------------------------------------------------------------------
+
+check_requirements python3.12 uvicorn
 
 if [[ "${CRUD_DEBUG}" == "1" ]]; then
     echo "Running in debug mode..."
@@ -21,8 +24,8 @@ if [[ "${CRUD_DEBUG}" == "1" ]]; then
         --log-config crud/conf/logging.dev.json \
         --port ${CRUD_PORT} \
         --reload
-    exit 0
 else
+    # Running in production mode..."
     uvicorn crud.main:app \
         --log-config crud/conf/logging.prod.json \
         --port ${CRUD_PORT}

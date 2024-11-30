@@ -8,3 +8,8 @@ if [[ "${INSTALL_TEST_PACKAGES}" == "yes" ]]; then
     info Installing test packages...
     python -m pip install -r requirements/test_requirements.txt
 fi
+
+if [[ "${INSTALL_DEV_PACKAGES}" == "yes" ]]; then
+    info Installing dev packages...
+    python -m pip install -r requirements/dev_requirements.txt
+fi

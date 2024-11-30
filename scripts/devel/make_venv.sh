@@ -3,11 +3,6 @@ source scripts/common.sh
 
 REQ_MD5_FILEPATH=${VIRTUALENV_DIR}/.requirements.md5
 
-if [[ ! -f "${VIRTUALENV_BIN}" ]]; then
-    error "virtualenv is not installed. Install it with the following command:\n\t${PYTHON_BIN} -m pip install virtualenv"
-    exit 1
-fi
-
 if [[ ! -f ${VIRTUALENV_ACTIVATE} ]]; then
     info Creating a virtual environment...
     ${VIRTUALENV_BIN} -p ${PYTHON_BIN} ${VIRTUALENV_DIR}
@@ -16,6 +11,7 @@ fi
 function install_packages() {
     source ${VIRTUALENV_ACTIVATE}; \
         INSTALL_TEST_PACKAGES=yes \
+        INSTALL_DEV_PACKAGES=yes \
         scripts/build/install_packages.sh
     md5sum requirements/requirements.txt > ${REQ_MD5_FILEPATH}
     source ${VIRTUALENV_ACTIVATE}; pip freeze | md5sum >> ${REQ_MD5_FILEPATH}

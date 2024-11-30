@@ -1,5 +1,17 @@
 #!/bin/bash
 
+function check_requirements() {
+    local requirements=("python3" "uvicorn")
+    for req in ${requirements[@]}; do
+        if [[ "`which $req`" == "" ]]; then
+            echo "ERROR: $req is not installed. Please install it."
+            exit 1
+        fi
+    done
+}
+
+check_requirements
+
 # NOTE: Process count: os.cpu_count() * 2(sub processes) + 1(main process == uvicorn)
 DEFAULT_CURD_WORKERS=`python3 -c "import os; print(os.cpu_count() * 2)"`
 
