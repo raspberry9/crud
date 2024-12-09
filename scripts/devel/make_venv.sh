@@ -12,6 +12,7 @@ function install_packages() {
     source ${VIRTUALENV_ACTIVATE}; \
         INSTALL_TEST_PACKAGES=yes \
         INSTALL_DEV_PACKAGES=yes \
+        INSTALL_BUILD_PACKAGES=yes \
         scripts/build/install_packages.sh
     md5sum requirements/requirements.txt > ${REQ_MD5_FILEPATH}
     source ${VIRTUALENV_ACTIVATE}; pip freeze | md5sum >> ${REQ_MD5_FILEPATH}

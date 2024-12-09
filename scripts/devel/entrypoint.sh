@@ -20,13 +20,13 @@ check_requirements python3.12 uvicorn
 
 if [[ "${CRUD_DEBUG}" == "1" ]]; then
     echo "Running in debug mode..."
-    uvicorn crud.main:app \
+    uvicorn crud.__main__:app \
         --log-config crud/conf/logging.dev.json \
         --port ${CRUD_PORT} \
         --reload
 else
     # Running in production mode..."
-    uvicorn crud.main:app \
+    uvicorn crud.__main__:app \
         --log-config crud/conf/logging.prod.json \
         --port ${CRUD_PORT}
 fi

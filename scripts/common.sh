@@ -4,7 +4,7 @@ set -eu
 # -----------------------------------------------------------------------------
 PYTHON_VERSION=3.12
 PYTHON_BIN=/usr/local/bin/python${PYTHON_VERSION} # ex) /usr/local/bin/python3.12
-VIRTUALENV_DIR=.venv
+VIRTUALENV_DIR=${VIRTUALENV_DIR:-.venv}
 VIRTUALENV_ACTIVATE=${VIRTUALENV_DIR}/bin/activate # ex) .venv/bin/activate
 # -----------------------------------------------------------------------------
 

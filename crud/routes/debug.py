@@ -10,6 +10,7 @@ router = APIRouter()
 @router.get("/test")
 def test(settings: Settings = Depends(get_settings)):
     return {
-        "hello": "world",
-        'DB_URL': settings.CRUD_DB_URL,
+        'CRUD_DB_URL': settings.CRUD_DB_URL,
+        'CRUD_HOST': settings.CRUD_HOST,
+        'CRUD_PORT': settings.CRUD_PORT,
     }

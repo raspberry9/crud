@@ -1,7 +1,11 @@
 # Writing your pyproject.toml: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
 
 [build-system]
-requires = ["setuptools >= 75.1.0", "setuptools-scm >= 8.1.0"]
+requires = [
+    "wheel >= 0.45.1",
+    "setuptools >= 75.6.0",
+    "setuptools-scm[toml] >= 8.1.0"
+]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -22,6 +26,10 @@ classifiers = [
     "Programming Language :: Python :: 3.12"
 ]
 dynamic = ["version", "dependencies"]
+
+[project.scripts]
+# package name = entrypoint
+crud = "crud.__main__:main"
 
 [project.urls]
 homepage = "https://github.com/raspberry9/crud"
@@ -50,7 +58,7 @@ exclude = [
 # "*" = "*.yml"
 
 [tool.scripts]
-crud="crud.main:main"
+crud="crud.__main__:main"
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

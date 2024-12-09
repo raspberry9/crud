@@ -19,7 +19,7 @@ DEFAULT_CURD_WORKERS=`python3 -c "import os; print(os.cpu_count() * 2)"`
 CRUD_PORT=${CRUD_PORT:-8000}
 CURD_WORKERS=${CURD_WORKERS:-${DEFAULT_CURD_WORKERS}}
 
-uvicorn crud.main:app \
+uvicorn crud.__main__:app \
         --log-config crud/conf/logging.prod.json \
         --port ${CRUD_PORT} \
         --workers=${CURD_WORKERS}

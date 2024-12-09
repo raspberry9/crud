@@ -13,3 +13,8 @@ if [[ "${INSTALL_DEV_PACKAGES}" == "yes" ]]; then
     info Installing dev packages...
     python -m pip install -r requirements/dev_requirements.txt
 fi
+
+if [[ "${INSTALL_BUILD_PACKAGES}" == "yes" ]]; then
+    info Installing build packages...
+    python -m pip install -r requirements/build_requirements.txt
+fi

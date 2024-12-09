@@ -6,6 +6,8 @@ run: run-dev
 
 run-dev: .venv
 	@CRUD_DB_URL=sqlite:///./debug.db \
+	 CRUD_HOST=127.0.0.1 \
+	 CRUD_PORT=8000 \
 	 scripts/devel/entrypoint.sh
 
 run-prod: .venv
@@ -14,6 +16,9 @@ run-prod: .venv
 migration: .venv
 	@CRUD_DB_URL=sqlite:///./debug.db \
 	 scripts/devel/migration.sh
+
+wheel:
+	@scripts/build/make_wheel.sh
 
 .venv:
 	@scripts/devel/make_venv.sh
