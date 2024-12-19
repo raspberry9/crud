@@ -7,3 +7,6 @@ from pydantic.networks import FileUrl, UrlConstraints
 SQLiteDsn = Annotated[FileUrl, UrlConstraints(allowed_schemes=['sqlite'])]
 
 PortNumber = Annotated[int, Field(gt=0, le=65353)]
+
+PositiveInt = Annotated[int, Field(gt=0)]
+NonNegativeInt = Annotated[int, Field(ge=0)]

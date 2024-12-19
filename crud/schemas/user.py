@@ -15,7 +15,7 @@ class UserCreate(UserBase):
 
 
 class User(UserBase):
-    id: int = Field(..., example=123)
+    id: int = Field(..., gt=0, example=123)
     is_active: bool
     posts: List[Post] = Field(...,
                               example=[
@@ -25,3 +25,9 @@ class User(UserBase):
 
     class Config:
         from_attributes = True
+
+
+class UsersGet(BaseModel):
+    offset: int = Field(..., ge=0, example=0)
+    limit: int = Field(..., gt=0, example=10)
+    users: List[User]

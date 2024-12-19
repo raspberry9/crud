@@ -5,11 +5,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-
+from crud.libs.types import PositiveInt
 from crud.libs.error import CRUDException, CRUDExceptionBase
 from crud.settings import Settings, get_settings
 from crud.models import get_db
-from crud.schemas.user import User, UserCreate
+from crud.schemas.user import User, UsersGet, UserCreate
 from crud.controller.user import get_user as _get_user
 from crud.controller.user import get_users as _get_users
 from crud.controller.user import create_user as _create_user
@@ -38,12 +38,16 @@ class UserNotFoundError(CRUDExceptionBase):
     message: str = 'User not found'
 
 
-@router.get('/', response_model=List[User])
-def get_users(offset: int=0, limit: int=MAX_USERS_PER_PAGE,
+@router.get('/', response_model=UsersGet)
+def get_users(offset: int=0, limit: PositiveInt=MAX_USERS_PER_PAGE,
               settings: Settings=Depends(get_settings),
               db: Session=Depends(get_db)):
+    '''
+    http://127.0.0.1:8000/api/v1/user/?offset=0&limit=10
+    '''
     users = _get_users(db, offset, limit)
-    return users
+
+    return UsersGet(offset=offset, limit=limit, users=users)
 
 
 @router.get('', response_model=User, responses={
