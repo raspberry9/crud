@@ -10,6 +10,7 @@ from crud.libs.error import CRUDException, CRUDExceptionBase
 from crud.settings import Settings, get_settings
 from crud.models import get_db
 from crud.schemas.user import User, UserCreate
+from crud.controller.user import get_user as _get_user
 from crud.controller.user import get_users as _get_users
 from crud.controller.user import create_user as _create_user
 
@@ -27,11 +28,17 @@ class UnknownDatabaseError(CRUDExceptionBase):
 
 class UserAlreadyExistsError(CRUDExceptionBase):
     status_code: int = status.CONFLICT
-    error_code: int = 1001
+    error_code: int = 1010
     message: str = 'User already exists'
 
 
-@router.get('/users/', response_model=List[User])
+class UserNotFoundError(CRUDExceptionBase):
+    status_code: int = status.NOT_FOUND
+    error_code: int = 1020
+    message: str = 'User not found'
+
+
+@router.get('/', response_model=List[User])
 def get_users(offset: int=0, limit: int=MAX_USERS_PER_PAGE,
               settings: Settings=Depends(get_settings),
               db: Session=Depends(get_db)):
@@ -39,9 +46,22 @@ def get_users(offset: int=0, limit: int=MAX_USERS_PER_PAGE,
     return users
 
 
-@router.put('/users/', response_model=User, status_code=status.CREATED,
+@router.get('', response_model=User, responses={
+            status.NOT_FOUND: {'model': UserNotFoundError},
+            })
+def get_user(user_id: int,
+             settings: Settings=Depends(get_settings),
+             db: Session=Depends(get_db)):
+    user = _get_user(db, user_id)
+    if user is None:
+        raise CRUDException(UserNotFoundError)
+    return user
+
+
+@router.post('', response_model=User, status_code=status.CREATED,
             responses={
                 status.CONFLICT: {'model': UserAlreadyExistsError},
+                status.INTERNAL_SERVER_ERROR: {'model': UnknownDatabaseError},
             })
 def create_user(input_user: UserCreate,
                 settings: Settings=Depends(get_settings),
@@ -53,3 +73,16 @@ def create_user(input_user: UserCreate,
             raise CRUDException(UserAlreadyExistsError)
         else:
             raise CRUDException(UnknownDatabaseError)
+
+
+# TODO: update user 작성
+# @router.put('', response_model=User, status_code=status.CREATED,
+#             responses={
+#                 status.CONFLICT: {'model': UserAlreadyExistsError},
+#                 status.INTERNAL_SERVER_ERROR: {'model': UnknownDatabaseError},
+#             })
+# def update_user(input_user: UserCreate,
+#                 settings: Settings=Depends(get_settings),
+#                 db: Session=Depends(get_db)):
+# TODO: 권한 검사
+#     return _update_user(db, input_user)
