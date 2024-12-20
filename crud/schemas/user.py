@@ -1,6 +1,6 @@
 from typing import Optional, List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from crud.schemas.post import Post
 
@@ -8,10 +8,6 @@ from crud.schemas.post import Post
 class UserBase(BaseModel):
     name: str = Field(..., example="John Doe")
     email: str = Field(..., example="john.doe@kormail.net")
-
-
-class UserCreate(UserBase):
-    pass
 
 
 class User(UserBase):
@@ -23,8 +19,11 @@ class User(UserBase):
                                        description="This is a description",
                                        owner_id=123)])
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
+
+
+class UserCreate(UserBase):
+    pass
 
 
 class UsersGet(BaseModel):

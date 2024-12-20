@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, Integer, String, ForeignKey
-from sqlalchemy.orm import sessionmaker, mapped_column, relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, declarative_base, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import Boolean
 
 from crud.settings import get_settings
