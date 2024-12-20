@@ -9,7 +9,7 @@ from crud.libs.types import PositiveInt
 from crud.libs.error import CRUDException, CRUDExceptionBase
 from crud.settings import Settings, get_settings
 from crud.models import get_db
-from crud.schemas.user import User, UsersGet, UserCreate
+from crud.schemas.user import User, UsersGet, UserCreate, CreatedUser
 from crud.controller.user import get_user as _get_user
 from crud.controller.user import get_users as _get_users
 from crud.controller.user import create_user as _create_user
@@ -62,7 +62,7 @@ def get_user(user_id: int,
     return user
 
 
-@router.post('', response_model=User, status_code=status.CREATED,
+@router.post('', response_model=CreatedUser, status_code=status.CREATED,
             responses={
                 status.CONFLICT: {'model': UserAlreadyExistsError},
                 status.INTERNAL_SERVER_ERROR: {'model': UnknownDatabaseError},

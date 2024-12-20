@@ -4,13 +4,20 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from crud.schemas.post import Post, _POST_MODEL_EXAMPLE_
 
-_USER_MODEL_EXAMPLE_ = {
+_USER_BASE_MODEL_EXAMPLE_ = {
     'name': 'John Doe',
     'email': 'john.doe@kormail.net',
+}
+
+_USER_MODEL_EXAMPLE_ = _USER_BASE_MODEL_EXAMPLE_.copy()
+_USER_MODEL_EXAMPLE_.update({
     'id': 123,
     'is_active': False,
     'posts': [_POST_MODEL_EXAMPLE_, ],
-}
+})
+
+_USER_MODEL_WITH_EMPTY_POSTS_EXAMPLE_ = _USER_MODEL_EXAMPLE_.copy()
+_USER_MODEL_WITH_EMPTY_POSTS_EXAMPLE_['posts'].clear()
 
 
 class UserBase(BaseModel):
@@ -19,9 +26,7 @@ class UserBase(BaseModel):
 
     model_config = ConfigDict(
         json_schema_extra={
-            'examples': [{
-                k: v for k, v in _USER_MODEL_EXAMPLE_.items()
-                 if k in {'name', 'email'}}],
+            'examples': [_USER_BASE_MODEL_EXAMPLE_],
         }
     )
 
@@ -36,6 +41,18 @@ class User(UserBase):
         json_schema_extra={
             'examples': [
                 _USER_MODEL_EXAMPLE_,
+            ],
+        }
+    )
+
+
+class CreatedUser(User):
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            # 새로 생성된 직후의 사용자는 posts가 하나도 없으므로 예제에서도 제외함
+            'examples': [
+                _USER_MODEL_WITH_EMPTY_POSTS_EXAMPLE_,
             ],
         }
     )
