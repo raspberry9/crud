@@ -1,25 +1,44 @@
-from typing import Optional, List
+from typing import List
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from crud.schemas.post import Post
+from crud.schemas.post import Post, _POST_MODEL_EXAMPLE_
+
+_USER_MODEL_EXAMPLE_ = {
+    'name': 'John Doe',
+    'email': 'john.doe@kormail.net',
+    'id': 123,
+    'is_active': False,
+    'posts': [_POST_MODEL_EXAMPLE_, ],
+}
 
 
 class UserBase(BaseModel):
-    name: str = Field(..., example="John Doe")
-    email: str = Field(..., example="john.doe@kormail.net")
+    name: str
+    email: str
+
+    model_config = ConfigDict(
+        json_schema_extra={
+            'examples': [{
+                k: v for k, v in _USER_MODEL_EXAMPLE_.items()
+                 if k in {'name', 'email'}}],
+        }
+    )
 
 
 class User(UserBase):
-    id: int = Field(..., gt=0, example=123)
+    id: int
     is_active: bool
-    posts: List[Post] = Field(...,
-                              example=[
-                                  Post(id=1, title="Hello World",
-                                       description="This is a description",
-                                       owner_id=123)])
+    posts: List[Post]
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(
+        from_attributes=True,
+        json_schema_extra={
+            'examples': [
+                _USER_MODEL_EXAMPLE_,
+            ],
+        }
+    )
 
 
 class UserCreate(UserBase):
@@ -27,6 +46,14 @@ class UserCreate(UserBase):
 
 
 class UsersGet(BaseModel):
-    offset: int = Field(..., ge=0, example=0)
-    limit: int = Field(..., gt=0, example=10)
+    offset: int = Field(..., ge=0)
+    limit: int = Field(..., gt=0)
     users: List[User]
+
+    model_config = ConfigDict(
+        examples=[{
+            'offset': 0,
+            'limit': 10,
+            'users': [_USER_MODEL_EXAMPLE_, ],
+        }]
+    )

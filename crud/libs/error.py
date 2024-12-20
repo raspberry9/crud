@@ -1,15 +1,17 @@
 from  http import HTTPStatus as status
-from typing import Optional, Dict
+from typing import Optional, Dict, LiteralString
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 
 
 class CRUDExceptionBase(BaseModel):
-    status_code: int = Field(status.INTERNAL_SERVER_ERROR, hidden=True)
+    status_code: int = status.INTERNAL_SERVER_ERROR
     error_code: int = 1000
     message: str = 'Internal Server Error'
+
+    model_config = ConfigDict(hidden=True)
 
 
 class CRUDException(HTTPException):
