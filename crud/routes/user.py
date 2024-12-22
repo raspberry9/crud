@@ -1,4 +1,3 @@
-from typing_extensions import List
 from http import HTTPStatus as status
 
 from fastapi import APIRouter, Depends
@@ -40,7 +39,7 @@ class UserNotFoundError(CRUDExceptionBase):
 
 @router.get('/', response_model=UsersGet)
 def get_users(offset: int=0, limit: PositiveInt=MAX_USERS_PER_PAGE,
-              settings: Settings=Depends(get_settings),
+              _: Settings=Depends(get_settings),
               db: Session=Depends(get_db)):
     '''
     http://127.0.0.1:8000/api/v1/user/?offset=0&limit=10
@@ -54,7 +53,7 @@ def get_users(offset: int=0, limit: PositiveInt=MAX_USERS_PER_PAGE,
             status.NOT_FOUND: {'model': UserNotFoundError},
             })
 def get_user(user_id: int,
-             settings: Settings=Depends(get_settings),
+             _: Settings=Depends(get_settings),
              db: Session=Depends(get_db)):
     user = _get_user(db, user_id)
     if user is None:
@@ -68,15 +67,14 @@ def get_user(user_id: int,
                 status.INTERNAL_SERVER_ERROR: {'model': UnknownDatabaseError},
             })
 def create_user(input_user: UserCreate,
-                settings: Settings=Depends(get_settings),
+                _: Settings=Depends(get_settings),
                 db: Session=Depends(get_db)):
     try:
         return _create_user(db, input_user)
     except IntegrityError as e:
         if 'UNIQUE constraint failed' in str(e):
-            raise CRUDException(UserAlreadyExistsError)
-        else:
-            raise CRUDException(UnknownDatabaseError)
+            raise CRUDException(UserAlreadyExistsError) from e
+        raise CRUDException(UnknownDatabaseError) from e
 
 
 # TODO: update user 작성

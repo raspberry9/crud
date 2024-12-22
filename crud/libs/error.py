@@ -1,7 +1,7 @@
 from  http import HTTPStatus as status
-from typing import Optional, Dict, LiteralString
+from typing import Optional, Dict
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 
@@ -31,7 +31,7 @@ class CRUDException(HTTPException):
 
 def register_error_handlers(app: FastAPI):
     @app.exception_handler(CRUDException)
-    async def crud_exception_handler(request: Request, exc: CRUDException):
+    async def crud_exception_handler(_: Request, exc: CRUDException):
         error_model = exc.error_model
         return JSONResponse(
             status_code=exc.status_code,
