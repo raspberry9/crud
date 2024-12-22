@@ -25,7 +25,7 @@ def test_valid_version():
         '1.0.0-beta+exp.sha.5114f85',
     )
     for version in valid_versions:
-        with patch("builtins.open", mock_open(read_data=version)):
+        with patch('builtins.open', mock_open(read_data=version)):
             assert get_app_version() == version
 
 
@@ -40,6 +40,6 @@ def test_invalid_version():
         '1.0.0.0',
     )
     for version in invalid_versions:
-        with patch("builtins.open", mock_open(read_data=version)):
+        with patch('builtins.open', mock_open(read_data=version)):
             with pytest.raises(ValueError):
                 get_app_version()

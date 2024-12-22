@@ -11,12 +11,12 @@ Base.metadata.create_all(bind=engine)
 
 
 class Post(Base):
-    __tablename__ = "posts"
+    __tablename__ = 'posts'
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
     title = mapped_column(String(255), nullable=False)
     description = mapped_column(String(255))
-    owner_id = mapped_column(Integer, ForeignKey("users.id"))
-    owner = relationship("User",back_populates="posts")
+    owner_id = mapped_column(Integer, ForeignKey('users.id'))
+    owner = relationship('User', back_populates='posts')
 
 
 class User(Base):
@@ -24,7 +24,7 @@ class User(Base):
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
     name = mapped_column(String(255), nullable=False)
     email = mapped_column(String(255), unique=True, nullable=False)
-    posts = relationship(Post, back_populates="owner", cascade='delete')
+    posts = relationship(Post, back_populates='owner', cascade='delete')
     is_active = mapped_column(Boolean,default=False)
 
 
