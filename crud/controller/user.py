@@ -1,11 +1,20 @@
+from typing import Optional
+
 from sqlalchemy.orm import Session
 
 from crud.models import User
 from crud.schemas.user import UserCreate
 
 
-def get_user(db: Session, user_id: int):
-    return db.query(User).filter(User.id == user_id).first()
+def get_user(db: Session, user_id: Optional[int] = None, email: Optional[str] = None):
+    if user_id is None and email is None:
+        raise ValueError('user_id or email is required')
+    query = db.query(User)
+    if user_id is not None:
+        query = query.filter(User.id == user_id)
+    if email is not None:
+        query = query.filter(User.email == email)
+    return query.first()
 
 
 def get_user_by_email(db: Session, email: str):
