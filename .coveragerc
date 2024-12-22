@@ -1,0 +1,14 @@
+[run]
+branch = True
+omit =
+    alembic/*
+
+[report]
+exclude_also =
+    def __repr__
+    if settings.CRUD_DEBUG
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+    if __name__ == .__main__.:
+    @(abc\.)?abstractmethod
